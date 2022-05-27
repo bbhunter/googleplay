@@ -11,12 +11,6 @@ import (
    "time"
 )
 
-// This only works with English. You can force English with:
-// Accept-Language: en
-func (d Details) Time() (time.Time, error) {
-   return time.Parse("Jan 2, 2006", d.UploadDate)
-}
-
 type Details struct {
    Title string
    Creator string
@@ -30,16 +24,41 @@ type Details struct {
    CurrencyCode string
 }
 
-type errVersionCode struct {
-   app string
+func (d Details) String() string {
+   var buf []byte
+   buf = append(buf, "Title: "...)
+   buf = append(buf, d.Title...)
+   buf = append(buf, "\nCreator: "...)
+   buf = append(buf, d.Creator...)
+   buf = append(buf, "\nUploadDate: "...)
+   buf = append(buf, d.UploadDate...)
+   buf = append(buf, "\nVersionString: "...)
+   buf = append(buf, d.VersionString...)
+   buf = append(buf, "\nVersionCode: "...)
+   buf = strconv.AppendUint(buf, d.VersionCode, 10)
+   buf = append(buf, "\nNumDownloads: "...)
+   buf = append(buf, format.LabelNumber(d.NumDownloads)...)
+   buf = append(buf, "\nSize: "...)
+   buf = append(buf, format.LabelSize(d.Size)...)
+   buf = append(buf, "\nFile:"...)
+   for _, file := range d.File {
+      if file == 0 {
+         buf = append(buf, " APK"...)
+      } else {
+         buf = append(buf, " OBB"...)
+      }
+   }
+   buf = append(buf, "\nOffer: "...)
+   buf = strconv.AppendUint(buf, d.Micros, 10)
+   buf = append(buf, ' ')
+   buf = append(buf, d.CurrencyCode...)
+   return string(buf)
 }
 
-func (e errVersionCode) Error() string {
-   var buf strings.Builder
-   buf.WriteString(e.app)
-   buf.WriteString(" versionCode missing\n")
-   buf.WriteString("Check nativePlatform")
-   return buf.String()
+// This only works with English. You can force English with:
+// Accept-Language: en
+func (d Details) Time() (time.Time, error) {
+   return time.Parse("Jan 2, 2006", d.UploadDate)
 }
 
 func (h Header) Details(app string) (*Details, error) {
@@ -131,33 +150,14 @@ func (h Header) Details(app string) (*Details, error) {
    return &det, nil
 }
 
-func (d Details) String() string {
-   var buf []byte
-   buf = append(buf, "Title: "...)
-   buf = append(buf, d.Title...)
-   buf = append(buf, "\nCreator: "...)
-   buf = append(buf, d.Creator...)
-   buf = append(buf, "\nUploadDate: "...)
-   buf = append(buf, d.UploadDate...)
-   buf = append(buf, "\nVersionString: "...)
-   buf = append(buf, d.VersionString...)
-   buf = append(buf, "\nVersionCode: "...)
-   buf = strconv.AppendUint(buf, d.VersionCode, 10)
-   buf = append(buf, "\nNumDownloads: "...)
-   buf = append(buf, format.LabelNumber(d.NumDownloads)...)
-   buf = append(buf, "\nSize: "...)
-   buf = append(buf, format.LabelSize(d.Size)...)
-   buf = append(buf, "\nFile:"...)
-   for _, file := range d.File {
-      if file == 0 {
-         buf = append(buf, " APK"...)
-      } else {
-         buf = append(buf, " OBB"...)
-      }
-   }
-   buf = append(buf, "\nOffer: "...)
-   buf = strconv.AppendUint(buf, d.Micros, 10)
-   buf = append(buf, ' ')
-   buf = append(buf, d.CurrencyCode...)
-   return string(buf)
+type errVersionCode struct {
+   app string
+}
+
+func (e errVersionCode) Error() string {
+   var buf strings.Builder
+   buf.WriteString(e.app)
+   buf.WriteString(" versionCode missing\n")
+   buf.WriteString("Check nativePlatform")
+   return buf.String()
 }
