@@ -18,7 +18,7 @@ Some apps are specific to region. For example, `air.ITVMobilePlayer` is specifc
 to GB. If you try it from US, details will work, but delivery will fail:
 
 ~~~
-PS C:\> googleplay -a air.ITVMobilePlayer
+> googleplay -a air.ITVMobilePlayer
 Title: ITV Hub: Your TV Player - Watch Live & On Demand
 UploadDate: Dec 9, 2021
 VersionString: 9.19.0
@@ -27,7 +27,7 @@ NumDownloads: 17.429 M
 Size: 35.625 MB
 Offer: 0.00 USD
 
-PS C:\> googleplay -a air.ITVMobilePlayer -v 901900000
+> googleplay -a air.ITVMobilePlayer -v 901900000
 panic: Geo-blocking
 ~~~
 
@@ -42,7 +42,7 @@ Accept-Language: es-ES
 You can change the country [1], and then you get expected result:
 
 ~~~
-PS D:\Desktop> googleplay.exe -a air.ITVMobilePlayer
+> googleplay -a air.ITVMobilePlayer
 Title: ITV Hub: Your TV Player - Watch Live & On Demand
 UploadDate: Dec 9, 2021
 VersionString: 9.19.0
@@ -51,7 +51,7 @@ NumDownloads: 17.429 M
 Size: 35.625 MB
 Offer: 0.00 GBP
 
-PS C:\> googleplay -a air.ITVMobilePlayer -v 901900000
+> googleplay -a air.ITVMobilePlayer -v 901900000
 GET https://play.googleapis.com/download/by-token/download?token=AOTCm0TiBZQdp...
 ~~~
 

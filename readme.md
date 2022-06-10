@@ -44,7 +44,7 @@ googleplay -device
 Get app details:
 
 ~~~
-PS C:\> googleplay -a com.google.android.youtube
+> googleplay -a com.google.android.youtube
 Title: YouTube
 Creator: Google LLC
 UploadDate: 2022-05-12
