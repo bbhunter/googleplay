@@ -2,11 +2,24 @@ package googleplay
 
 import (
    "bytes"
+   "github.com/89z/format"
    "github.com/89z/format/protobuf"
    "net/http"
    "os"
    "strconv"
 )
+
+func (d Device) Create(name string) error {
+   file, err := format.Create(name)
+   if err != nil {
+      return err
+   }
+   defer file.Close()
+   if _, err := d.WriteTo(file); err != nil {
+      return err
+   }
+   return nil
+}
 
 func OpenDevice(name string) (*Device, error) {
    file, err := os.Open(name)

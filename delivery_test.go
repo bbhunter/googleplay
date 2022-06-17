@@ -11,11 +11,11 @@ func TestDelivery(t *testing.T) {
    if err != nil {
       t.Fatal(err)
    }
-   token, err := OpenToken(home, "googleplay/token.txt")
+   token, err := OpenToken(home + "/googleplay/token.txt")
    if err != nil {
       t.Fatal(err)
    }
-   device, err := OpenDevice(home, "googleplay/x86.txt")
+   device, err := OpenDevice(home + "/googleplay/x86.txt")
    if err != nil {
       t.Fatal(err)
    }

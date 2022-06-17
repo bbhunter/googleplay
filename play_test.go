@@ -15,7 +15,7 @@ func TestToken(t *testing.T) {
    if err != nil {
       t.Fatal(err)
    }
-   if err := token.Create(home, "googleplay/token.txt"); err != nil {
+   if err := token.Create(home + "/googleplay/token.txt"); err != nil {
       t.Fatal(err)
    }
 }
@@ -25,7 +25,7 @@ func TestHeader(t *testing.T) {
    if err != nil {
       t.Fatal(err)
    }
-   token, err := OpenToken(home, "googleplay/token.txt")
+   token, err := OpenToken(home + "/googleplay/token.txt")
    if err != nil {
       t.Fatal(err)
    }
