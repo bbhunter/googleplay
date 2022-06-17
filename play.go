@@ -13,6 +13,18 @@ import (
    "time"
 )
 
+func (t Token) Create(name string) error {
+   file, err := format.Create(name)
+   if err != nil {
+      return err
+   }
+   defer file.Close()
+   if _, err := t.WriteTo(file); err != nil {
+      return err
+   }
+   return nil
+}
+
 func OpenToken(name string) (*Token, error) {
    file, err := os.Open(name)
    if err != nil {

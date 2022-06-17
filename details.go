@@ -1,5 +1,4 @@
 package googleplay
-// github.com/89z
 
 import (
    "errors"

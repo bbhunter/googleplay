@@ -11,6 +11,17 @@
 
 Download APK from Google Play or send API requests
 
+## Issues
+
+Since people have repeatedly abused it, I am now requiring payment for all
+issues. Any issue without payment of at least 9 USD will be closed immediately.
+Payment can be made to the PayPal link on this page, or if you need to use
+another method, mention that in the issue text. For business opportunities,
+contact me:
+
+- Email srpen6@gmail.com
+- Discord 89z#4149
+
 ## How to install?
 
 This module works with Windows, macOS or Linux. First, [download Go][2] and
@@ -69,15 +80,6 @@ downloaded:
 ~~~
 googleplay -a com.google.android.youtube -v 1529337280
 ~~~
-
-## Sponsor
-
-I really need help financially, so if you are able, please donate using the
-sponsor link. If you cannot use PayPal, let me know, and I can see about adding
-other methods. Contact me with any business opportunities:
-
-- Email srpen6@gmail.com
-- Discord 89z#4149
 
 ## API
 

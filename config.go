@@ -2,63 +2,12 @@ package googleplay
 
 import (
    "bytes"
+   "github.com/89z/format"
    "github.com/89z/format/protobuf"
    "net/http"
    "os"
    "strconv"
 )
-
-func OpenDevice(name string) (*Device, error) {
-   file, err := os.Open(name)
-   if err != nil {
-      return nil, err
-   }
-   defer file.Close()
-   var dev Device
-   dev.Message = make(protobuf.Message)
-   if _, err := dev.ReadFrom(file); err != nil {
-      return nil, err
-   }
-   return &dev, nil
-}
-
-type NativePlatform map[int64]string
-
-var Platforms = NativePlatform{
-   // com.google.android.youtube
-   0: "x86",
-   // com.miui.weather2
-   1: "armeabi-v7a",
-   // com.kakaogames.twodin
-   2: "arm64-v8a",
-}
-
-func (n NativePlatform) String() string {
-   var buf []byte
-   buf = append(buf, "nativePlatform"...)
-   for key, val := range n {
-      buf = append(buf, '\n')
-      buf = strconv.AppendInt(buf, key, 10)
-      buf = append(buf, ": "...)
-      buf = append(buf, val...)
-   }
-   return string(buf)
-}
-
-// These can use default values, but they must all be included
-type Config struct {
-   DeviceFeature []string
-   GlEsVersion uint64
-   GlExtension []string
-   HasFiveWayNavigation uint64
-   HasHardKeyboard uint64
-   Keyboard uint64
-   Navigation uint64
-   ScreenDensity uint64
-   ScreenLayout uint64
-   SystemSharedLibrary []string
-   TouchScreen uint64
-}
 
 var Phone = Config{
    DeviceFeature: []string{
@@ -181,4 +130,67 @@ func (c Config) Checkin(platform string) (*Device, error) {
 
 type Device struct {
    protobuf.Message
+}
+func (d Device) Create(name string) error {
+   file, err := format.Create(name)
+   if err != nil {
+      return err
+   }
+   defer file.Close()
+   if _, err := d.WriteTo(file); err != nil {
+      return err
+   }
+   return nil
+}
+
+func OpenDevice(name string) (*Device, error) {
+   file, err := os.Open(name)
+   if err != nil {
+      return nil, err
+   }
+   defer file.Close()
+   var dev Device
+   dev.Message = make(protobuf.Message)
+   if _, err := dev.ReadFrom(file); err != nil {
+      return nil, err
+   }
+   return &dev, nil
+}
+
+type NativePlatform map[int64]string
+
+var Platforms = NativePlatform{
+   // com.google.android.youtube
+   0: "x86",
+   // com.miui.weather2
+   1: "armeabi-v7a",
+   // com.kakaogames.twodin
+   2: "arm64-v8a",
+}
+
+func (n NativePlatform) String() string {
+   var buf []byte
+   buf = append(buf, "nativePlatform"...)
+   for key, val := range n {
+      buf = append(buf, '\n')
+      buf = strconv.AppendInt(buf, key, 10)
+      buf = append(buf, ": "...)
+      buf = append(buf, val...)
+   }
+   return string(buf)
+}
+
+// These can use default values, but they must all be included
+type Config struct {
+   DeviceFeature []string
+   GlEsVersion uint64
+   GlExtension []string
+   HasFiveWayNavigation uint64
+   HasHardKeyboard uint64
+   Keyboard uint64
+   Navigation uint64
+   ScreenDensity uint64
+   ScreenLayout uint64
+   SystemSharedLibrary []string
+   TouchScreen uint64
 }
